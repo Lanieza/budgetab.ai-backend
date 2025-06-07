@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-th)!o@t-((3*=xhtu$myrxa+=9y8nq@0sv_gjs$@^pep#*k=qn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', '<your-local-ip>', '<custom-domain>']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'budgetab-ai-backend.onrender.com']
 
 # Application definition
 
