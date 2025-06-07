@@ -91,6 +91,15 @@ class AIInsightView(APIView):
     def get(self, request):
         user = request.user
 
+        budget = getattr(user, 'budget', None)
+        if not budget or budget.weekly_limit is None or budget.weekly_limit == 0:
+            return Response(
+                {"error": "Weekly budget not set. Please set your weekly budget to generate insights."},
+                status=400
+            )
+
+        weekly_limit = budget.weekly_limit
+
         today = date.today()
         start_of_week = today - timedelta(days=today.weekday())
         end_of_week = start_of_week + timedelta(days=6)
@@ -103,9 +112,6 @@ class AIInsightView(APIView):
 
         total_expenses = sum(entry.amount for entry in entries)
         entries_data = EntrySerializer(entries, many=True).data
-
-        budget = getattr(user, 'budget', None)
-        weekly_limit = budget.weekly_limit if budget else Decimal('0.00')
 
         prompt = f"""
 You are a financial assistant AI. Analyze the user's weekly expenses compared to their weekly budget.
